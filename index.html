@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registration form</title>
+    <link rel="stylesheet" href="index.css"> 
+</head>
+<body>
+
+    <h1>REGISTRATION FORM</h1>
+
+    <div class="container">
+        <form id="registrationform" name="registrationform" onsubmit="return(validate());">
+            <fieldset>
+                <legend> Registration Form </legend>
+                    <div class="input-control">
+                        <label for="name"> Enter Full Name </label>
+                        <input type="text" id="name" name="name"  placeholder="enter full name"  required>
+                        <div class="error"></div>
+                    </div>
+                    <div class="input-control">
+                        <label for="email"> Enter Email Id </label>
+                        <input type="email" id="email" name="email" placeholder="enter email id"  required>
+                        <div class="error"></div>
+                    </div>
+                    <div class="input-control">
+                        <label for="password"> Enter Password </label>
+                        <input type="password" id="password" name="password" placeholder="enter password"  required>
+                        <div class="error"></div>
+                    </div>  
+                    <div class="input-control">
+                        <label for="confirm_password"> Confirm Password </label>
+                        <input type="password" id="confirm_password" name="password" placeholder="confirm password"  required>
+                        <div class="error"></div>
+                    </div>
+                   <div class="input-control">
+                        <label for="dob"> Enter Date of Birth </label>
+                        <input type="date" id="dob" name="dob" placeholder="YYYY-MM-DD" pattern="YYYY-MM-DD"  required>
+                        <div class="error"></div>
+                   </div>
+                    
+                    <button id="submit" type="button">submit</button>
+                
+            </fieldset>
+        </div>
+    
+        
+
+
+    </form>
+<script src="index.js"></script>   
+</body>
+
+</html>
