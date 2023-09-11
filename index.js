@@ -1,34 +1,113 @@
-function validate(){
-    var name=document.forms.registrationform.name.value;
-    var email=document.forms.registrationform.email.value;
-    var password=document.forms.registrationform.password.value;
-    var confirm_password=document.forms.registrationform.confirm_password.value;
-    var dob=document.forms.registrationform.dob.value;
-
-    var regname=/^[A-Za-z{3}\s]*$/g;
-    var regemail=/^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,7}$/;
-    var regpassword=/^[A-Za-z0-9{8}]/;
-    var regdob=/^\d{4}\-\d{2}\-\d{2}$/;
-
-    if (name == ""||regname.test(name)) {
-        window.alert("please enter valid name!");
-        name.focus();
-        return false;
-    }
-    if (email == ""||!regemail.test(email)) {
-        window.alert("please enter valid email!");
-        email.focus();
-        return false;
-    }
-    if (password == ""||regpassword.test(password)) {
-        window.alert("please enter valid email!");
-        email.focus();
-        return false;
-    }
-    return true;
-
-
-
-}
-
+document.addEventListener("DOMContentLoaded", function () {
+    const form = document.getElementById("registrationform");
+    const fullname = document.getElementById("name");
+    const email = document.getElementById("email");
+    const password = document.getElementById("password");
+    const confirmPassword = document.getElementById("confirm_password");
+    const dateOfBirth = document.getElementById("dob");
+    const submitButton = document.getElementById("submit");
   
+    function validateFullname() {
+      const fullnameRegex = /^[a-zA-Z\s]+$/;
+      return fullnameRegex.test(fullname.value);
+    }
+  
+    function validateEmail() {
+      const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+      return emailRegex.test(email.value);
+    }
+  
+    function validatePassword() {
+      return password.value.length >= 8;
+    }
+  
+    function validateConfirmPassword() {
+      return confirmPassword.value === password.value;
+    }
+  
+    function validateDateOfBirth() {
+      const today = new Date();
+      const birthDate = new Date(dateOfBirth.value);
+      const age = today.getFullYear() - birthDate.getFullYear();
+      return age >= 18;
+    }
+  
+    function enableSubmitButton() {
+      if (
+        validateFullname() &&
+        validateEmail() &&
+        validatePassword() &&
+        validateConfirmPassword() &&
+        validateDateOfBirth()
+      ) {
+        submitButton.disabled = false;
+      } else {
+        submitButton.disabled = true;
+      }
+    }
+  
+    function updateValidationStatus(element, isValid, errorMessage) {
+      const errorElement = element.nextElementSibling;
+      errorElement.innerHTML = isValid ? "" : errorMessage;
+      errorElement.style.color = "red";
+    }
+  
+    fullname.addEventListener("input", () => {
+      updateValidationStatus(fullname, validateFullname(), "Please enter a valid name.");
+      enableSubmitButton();
+    });
+  
+    email.addEventListener("input", () => {
+      updateValidationStatus(email, validateEmail(), "Invalid email address.");
+      enableSubmitButton();
+    });
+  
+    password.addEventListener("input", () => {
+      updateValidationStatus(
+        password,
+        validatePassword(),
+        "Password must be at least 8 characters long."
+      );
+      validateConfirmPassword();
+      enableSubmitButton();
+    });
+  
+    confirmPassword.addEventListener("input", () => {
+      const errorMessage = validateConfirmPassword()
+        ? ""
+        : "Passwords do not match.";
+      updateValidationStatus(confirmPassword, validateConfirmPassword(), errorMessage);
+      enableSubmitButton();
+    });
+  
+    dateOfBirth.addEventListener("input", () => {
+      updateValidationStatus(
+        dateOfBirth,
+        validateDateOfBirth(),
+        "You must be at least 18 years old to register."
+      );
+      enableSubmitButton();
+    });
+  
+    form.addEventListener("submit", (event) => {
+      event.preventDefault(); 
+  
+      if (
+        validateFullname() &&
+        validateEmail() &&
+        validatePassword() &&
+        validateConfirmPassword() &&
+        validateDateOfBirth()
+      ) {
+        const userDetailsString =
+          `User Details:\n\n` +
+          `Full Name: ${fullname.value}\n` +
+          `Email: ${email.value}\n` +
+          `Password: ${password.value}\n` +
+          `Date of Birth: ${dateOfBirth.value}`;
+  
+        alert(userDetailsString);
+      }
+    });
+  
+  });
